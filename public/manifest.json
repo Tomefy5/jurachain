@@ -1,0 +1,132 @@
+{
+    "name": "JusticeAutomation",
+    "short_name": "JusticeAuto",
+    "description": "Plateforme décentralisée basée sur l'IA et la blockchain pour l'accès aux documents légaux à Madagascar",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "fr",
+    "categories": [
+        "legal",
+        "business",
+        "productivity"
+    ],
+    "icons": [
+        {
+            "src": "/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Nouveau contrat",
+            "short_name": "Nouveau",
+            "description": "Créer un nouveau document légal",
+            "url": "/?action=new-contract",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-new.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Mes documents",
+            "short_name": "Documents",
+            "description": "Voir mes documents sauvegardés",
+            "url": "/dashboard",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-docs.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Mode hors ligne",
+            "short_name": "Hors ligne",
+            "description": "Accéder aux fonctionnalités hors ligne",
+            "url": "/?mode=offline",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-offline.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshots/desktop-home.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Page d'accueil sur desktop"
+        },
+        {
+            "src": "/screenshots/mobile-dashboard.png",
+            "sizes": "375x667",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Tableau de bord mobile"
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "features": [
+        "offline-support",
+        "background-sync",
+        "document-generation",
+        "blockchain-signatures",
+        "multi-language"
+    ],
+    "offline_enabled": true,
+    "cache_strategy": "cache-first"
+}

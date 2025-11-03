@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusticeAutomation - API Gateway</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="description"
+        content="Plateforme décentralisée basée sur l'IA et la blockchain pour l'accès aux documents légaux à Madagascar">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="JusticeAutomation">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .status {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .endpoints {
+            background: #f5f5f5;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .endpoint {
+            margin: 0.5rem 0;
+            font-family: monospace;
+        }
+
+        .method {
+            background: #007acc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .offline-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .offline-indicator.online {
+            background: #10b981;
+            color: white;
+        }
+
+        .offline-indicator.offline {
+            background: #ef4444;
+            color: white;
+        }
+
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            border: 1px solid #ddd;
+        }
+
+        .install-prompt.show {
+            display: block;
+        }
+
+        .install-prompt button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .offline-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🏛️ JusticeAutomation</h1>
+        <p>Plateforme décentralisée pour l'accès aux documents légaux à Madagascar</p>
+    </div>
+
+    <div class="status">
+        <h3>✅ API Gateway Actif</h3>
+        <p>Tous les services sont opérationnels</p>
+    </div>
+
+    <div class="endpoints">
+        <h3>📡 Endpoints Disponibles</h3>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/health</code> - Vérification de santé
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/health/detailed</code> - Vérification détaillée
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/auth/register</code> - Inscription
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/auth/login</code> - Connexion
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/api/documents</code> - Liste des documents
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/documents/generate</code> - Génération de document
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/documents/:id/translate</code> - Traduction de document
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/documents/:id/compare</code> - Comparaison de traductions
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/documents/generate-multilingual</code> - Génération multilingue
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/offline/generate-document</code> - Génération hors ligne <span
+                class="offline-badge">OFFLINE</span>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/api/offline/documents</code> - Documents locaux <span class="offline-badge">OFFLINE</span>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <code>/api/offline/sync</code> - Synchronisation forcée
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/api/offline/capabilities</code> - Capacités hors ligne
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/metrics</code> - Métriques Prometheus
+        </div>
+    </div>
+
+    <div class="endpoints">
+        <h3>🌐 Interfaces Utilisateur</h3>
+        <div class="endpoint">
+            <a href="/translation.html" style="color: #007acc; text-decoration: none;">
+                🔗 Interface de Traduction Multilingue
+            </a>
+        </div>
+    </div>
+
+    <div class="endpoints">
+        <h3>🔧 Services Externes</h3>
+        <p><strong>Ollama AI:</strong> Port 11434</p>
+        <p><strong>Prometheus:</strong> Port 9090</p>
+        <p><strong>Analytics:</strong> Port 8000</p>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" class="offline-indicator online">En ligne</div>
+
+    <!-- Install Prompt -->
+    <div id="installPrompt" class="install-prompt">
+        <h3>📱 Installer JusticeAutomation</h3>
+        <p>Installez l'application pour un accès hors ligne et une meilleure expérience utilisateur.</p>
+        <button id="installButton">Installer</button>
+        <button id="dismissButton">Plus tard</button>
+    </div>
+
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installButton = document.getElementById('installButton');
+        const dismissButton = document.getElementById('dismissButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.classList.add('show');
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                installPrompt.classList.remove('show');
+            }
+        });
+
+        dismissButton.addEventListener('click', () => {
+            installPrompt.classList.remove('show');
+        });
+
+        // Online/Offline Status
+        const offlineIndicator = document.getElementById('offlineIndicator');
+
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                offlineIndicator.textContent = 'En ligne';
+                offlineIndicator.className = 'offline-indicator online';
+            } else {
+                offlineIndicator.textContent = 'Hors ligne';
+                offlineIndicator.className = 'offline-indicator offline';
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // Simple status check with offline fallback
+        async function checkServiceStatus() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                console.log('Service status:', data);
+            } catch (error) {
+                console.log('Service check failed (possibly offline):', error);
+
+                // Try to get offline capabilities
+                try {
+                    const offlineResponse = await fetch('/api/offline/capabilities');
+                    const offlineData = await offlineResponse.json();
+                    console.log('Offline capabilities:', offlineData);
+                } catch (offlineError) {
+                    console.log('Offline capabilities check failed:', offlineError);
+                }
+            }
+        }
+
+        // Check status on load
+        checkServiceStatus();
+
+        // Periodic sync status check (every 30 seconds)
+        setInterval(() => {
+            if (navigator.onLine) {
+                checkServiceStatus();
+            }
+        }, 30000);
+    </script>
+</body>
+
+</html>

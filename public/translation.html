@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusticeAutomation - Interface de Traduction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .translation-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .translation-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .language-selector {
+            padding: 0.5rem 1rem;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            background: white;
+            color: #2c3e50;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .document-content {
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #fafbfc;
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+        }
+
+        .document-content.editable {
+            background: white;
+            border-color: #3498db;
+        }
+
+        .document-content:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-panel {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .status-value {
+            color: #7f8c8d;
+        }
+
+        .accuracy-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .accuracy-high {
+            color: #27ae60;
+        }
+
+        .accuracy-medium {
+            color: #f39c12;
+        }
+
+        .accuracy-low {
+            color: #e74c3c;
+        }
+
+        .comparison-view {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .paragraph-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+        }
+
+        .paragraph-comparison.aligned {
+            border-color: #27ae60;
+            background: #f8fff8;
+        }
+
+        .paragraph-comparison.misaligned {
+            border-color: #e74c3c;
+            background: #fff8f8;
+        }
+
+        .paragraph-original,
+        .paragraph-translated {
+            padding: 0.5rem;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .paragraph-index {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            border: 3px solid #ecf0f1;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            background: #fff5f5;
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .success-message {
+            background: #f0fff4;
+            border: 1px solid #27ae60;
+            color: #1e8449;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .translation-interface {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .paragraph-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 Interface de Traduction Multilingue</h1>
+            <p>Traduction française/malgache avec validation de précision juridique</p>
+        </div>
+
+        <div class="controls">
+            <div class="controls-grid">
+                <button class="btn btn-primary" onclick="translateDocument()">
+                    🔄 Traduire le Document
+                </button>
+                <button class="btn btn-secondary" onclick="createComparison()">
+                    📊 Créer une Comparaison
+                </button>
+                <button class="btn btn-success" onclick="generateMultilingual()">
+                    🌍 Génération Multilingue
+                </button>
+                <button class="btn btn-secondary" onclick="clearAll()">
+                    🗑️ Effacer Tout
+                </button>
+            </div>
+        </div>
+
+        <div class="translation-interface">
+            <div class="translation-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Document Original</div>
+                    <select class="language-selector" id="sourceLanguage">
+                        <option value="fr">Français</option>
+                        <option value="mg">Malgache</option>
+                        <option value="en">Anglais</option>
+                    </select>
+                </div>
+                <div class="document-content editable" id="originalContent" contenteditable="true">
+                    <h3>CONTRAT DE VENTE</h3>
+                    <br>
+                    <strong>Article 1 - Objet du contrat</strong><br>
+                    Le présent contrat a pour objet la vente d'un bien immobilier situé à Antananarivo, Madagascar.
+                    <br><br>
+                    <strong>Article 2 - Prix de vente</strong><br>
+                    Le prix de vente est fixé à cinquante millions (50 000 000) d'Ariary.
+                    <br><br>
+                    <strong>Article 3 - Modalités de paiement</strong><br>
+                    Le paiement s'effectuera en trois versements égaux de seize millions six cent soixante-six mille six
+                    cent soixante-six (16 666 666) Ariary chacun.
+                    <br><br>
+                    <strong>Article 4 - Obligations du vendeur</strong><br>
+                    Le vendeur s'engage à livrer le bien en parfait état et à fournir tous les documents nécessaires au
+                    transfert de propriété.
+                </div>
+            </div>
+
+            <div class="translation-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Document Traduit</div>
+                    <select class="language-selector" id="targetLanguage">
+                        <option value="mg">Malgache</option>
+                        <option value="fr">Français</option>
+                        <option value="en">Anglais</option>
+                    </select>
+                </div>
+                <div class="document-content" id="translatedContent">
+                    <div class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Traduction en cours...
+                    </div>
+                    <p style="color: #7f8c8d; text-align: center; padding: 2rem;">
+                        Cliquez sur "Traduire le Document" pour voir la traduction ici
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-panel" id="statusPanel" style="display: none;">
+            <h3>📈 Rapport de Validation</h3>
+            <div class="status-item">
+                <span class="status-label">Score de Précision:</span>
+                <span class="status-value accuracy-score" id="accuracyScore">--</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Termes Juridiques Préservés:</span>
+                <span class="status-value" id="legalTermsStatus">--</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Structure Préservée:</span>
+                <span class="status-value" id="structureStatus">--</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Temps de Traitement:</span>
+                <span class="status-value" id="processingTime">--</span>
+            </div>
+        </div>
+
+        <div class="comparison-view" id="comparisonView" style="display: none;">
+            <div class="comparison-header">
+                <h3>📋 Comparaison Côte à Côte</h3>
+                <p>Alignement des paragraphes entre l'original et la traduction</p>
+            </div>
+            <div id="comparisonContent">
+                <!-- Comparison content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTranslation = null;
+        let currentComparison = null;
+
+        async function translateDocument() {
+            const originalContent = document.getElementById('originalContent').innerText;
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+            const targetLanguage = document.getElementById('targetLanguage').value;
+
+            if (sourceLanguage === targetLanguage) {
+                showError('La langue source et la langue cible doivent être différentes');
+                return;
+            }
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('/api/documents/test-doc/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token' // Mock token for demo
+                    },
+                    body: JSON.stringify({
+                        content: originalContent,
+                        sourceLanguage: sourceLanguage,
+                        targetLanguage: targetLanguage,
+                        type: 'contract',
+                        title: 'Document de Test'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    currentTranslation = result;
+                    displayTranslation(result);
+                    displayValidationReport(result);
+                    showSuccess('Document traduit avec succès!');
+                } else {
+                    showError('Erreur de traduction: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Translation error:', error);
+                showError('Erreur de connexion au service de traduction');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function createComparison() {
+            if (!currentTranslation) {
+                showError('Veuillez d\'abord traduire un document');
+                return;
+            }
+
+            const originalContent = document.getElementById('originalContent').innerText;
+            const translatedContent = document.getElementById('translatedContent').innerText;
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+            const targetLanguage = document.getElementById('targetLanguage').value;
+
+            try {
+                const response = await fetch('/api/documents/test-doc/compare', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    },
+                    body: JSON.stringify({
+                        originalContent: originalContent,
+                        translatedContent: translatedContent,
+                        sourceLanguage: sourceLanguage,
+                        targetLanguage: targetLanguage,
+                        translatedDocumentId: 'test-doc-translated'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    currentComparison = result.comparison;
+                    displayComparison(result.comparison);
+                    showSuccess('Comparaison créée avec succès!');
+                } else {
+                    showError('Erreur lors de la création de la comparaison: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Comparison error:', error);
+                showError('Erreur de connexion au service de comparaison');
+            }
+        }
+
+        async function generateMultilingual() {
+            const originalContent = document.getElementById('originalContent').innerText;
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('/api/documents/generate-multilingual', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    },
+                    body: JSON.stringify({
+                        type: 'contract',
+                        language: sourceLanguage,
+                        description: 'Contrat de vente généré pour démonstration',
+                        parties: [
+                            { name: 'Vendeur Test', email: 'vendeur@test.mg', role: 'vendeur' },
+                            { name: 'Acheteur Test', email: 'acheteur@test.mg', role: 'acheteur' }
+                        ],
+                        jurisdiction: 'Madagascar',
+                        targetLanguages: sourceLanguage === 'fr' ? ['mg'] : ['fr']
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayMultilingualResult(result.result);
+                    showSuccess('Document multilingue généré avec succès!');
+                } else {
+                    showError('Erreur de génération multilingue: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Multilingual generation error:', error);
+                showError('Erreur de connexion au service de génération');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayTranslation(result) {
+            const translatedContent = document.getElementById('translatedContent');
+            translatedContent.innerHTML = result.translatedDocument.content.replace(/\n/g, '<br>');
+        }
+
+        function displayValidationReport(result) {
+            const statusPanel = document.getElementById('statusPanel');
+            const accuracyScore = document.getElementById('accuracyScore');
+            const legalTermsStatus = document.getElementById('legalTermsStatus');
+            const structureStatus = document.getElementById('structureStatus');
+            const processingTime = document.getElementById('processingTime');
+
+            accuracyScore.textContent = result.accuracyScore + '%';
+            accuracyScore.className = 'status-value accuracy-score ' + getAccuracyClass(result.accuracyScore);
+
+            legalTermsStatus.textContent = result.validationReport.legalTermsPreserved ? '✅ Oui' : '❌ Non';
+            structureStatus.textContent = result.validationReport.structurePreserved ? '✅ Oui' : '❌ Non';
+            processingTime.textContent = (result.processingTime / 1000).toFixed(2) + 's';
+
+            statusPanel.style.display = 'block';
+        }
+
+        function displayComparison(comparison) {
+            const comparisonView = document.getElementById('comparisonView');
+            const comparisonContent = document.getElementById('comparisonContent');
+
+            let html = '';
+            comparison.comparison.forEach((item, index) => {
+                const alignedClass = item.isAligned ? 'aligned' : 'misaligned';
+                html += `
+                    <div class="paragraph-comparison ${alignedClass}">
+                        <div class="paragraph-original">
+                            <div class="paragraph-index">Paragraphe ${index + 1} (Original)</div>
+                            ${item.original ? item.original.content : '<em>Paragraphe manquant</em>'}
+                        </div>
+                        <div class="paragraph-translated">
+                            <div class="paragraph-index">Paragraphe ${index + 1} (Traduit)</div>
+                            ${item.translated ? item.translated.content : '<em>Paragraphe manquant</em>'}
+                        </div>
+                    </div>
+                `;
+            });
+
+            comparisonContent.innerHTML = html;
+            comparisonView.style.display = 'block';
+        }
+
+        function displayMultilingualResult(result) {
+            // For demo purposes, just show a summary
+            const message = `
+                Document principal généré avec succès.
+                Traductions: ${result.summary.successfulTranslations}/${result.summary.totalLanguages - 1}
+                Score de précision moyen: ${result.summary.averageAccuracyScore}%
+            `;
+            showSuccess(message);
+        }
+
+        function getAccuracyClass(score) {
+            if (score >= 80) return 'accuracy-high';
+            if (score >= 60) return 'accuracy-medium';
+            return 'accuracy-low';
+        }
+
+        function showLoading(show) {
+            const loading = document.querySelector('.loading');
+            const translatedContent = document.getElementById('translatedContent');
+
+            if (show) {
+                loading.style.display = 'flex';
+                translatedContent.innerHTML = '';
+                translatedContent.appendChild(loading);
+            } else {
+                loading.style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            hideMessages();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.translation-interface'));
+        }
+
+        function showSuccess(message) {
+            hideMessages();
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.textContent = message;
+            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.translation-interface'));
+        }
+
+        function hideMessages() {
+            const messages = document.querySelectorAll('.error-message, .success-message');
+            messages.forEach(msg => msg.remove());
+        }
+
+        function clearAll() {
+            document.getElementById('translatedContent').innerHTML = `
+                <p style="color: #7f8c8d; text-align: center; padding: 2rem;">
+                    Cliquez sur "Traduire le Document" pour voir la traduction ici
+                </p>
+            `;
+            document.getElementById('statusPanel').style.display = 'none';
+            document.getElementById('comparisonView').style.display = 'none';
+            currentTranslation = null;
+            currentComparison = null;
+            hideMessages();
+        }
+
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Interface de traduction initialisée');
+        });
+    </script>
+</body>
+
+</html>
