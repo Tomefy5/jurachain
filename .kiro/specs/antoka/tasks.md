@@ -1,4 +1,4 @@
-# Plan d'Implémentation - JusticeAutomation
+# Plan d'Implémentation - Antoka
 
 - [x] 1. Configuration de l'infrastructure de base et des services fondamentaux
   - Créer la structure de projet avec Docker et Docker Compose

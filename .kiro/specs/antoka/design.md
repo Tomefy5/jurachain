@@ -1,8 +1,8 @@
-# Document de Conception - JusticeAutomation
+# Document de Conception - Antoka
 
 ## Vue d'ensemble
 
-JusticeAutomation est une plateforme décentralisée qui combine l'intelligence artificielle et la blockchain pour démocratiser l'accès aux documents légaux à Madagascar. L'architecture adopte une approche hybride cloud/local pour garantir l'accessibilité même dans les zones à connectivité limitée.
+Antoka est une plateforme décentralisée qui combine l'intelligence artificielle et la blockchain pour démocratiser l'accès aux documents légaux à Madagascar. L'architecture adopte une approche hybride cloud/local pour garantir l'accessibilité même dans les zones à connectivité limitée.
 
 ## Architecture
 

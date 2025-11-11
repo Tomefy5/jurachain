@@ -18,10 +18,10 @@ RUN mkdir -p logs
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
+RUN adduser -u 1001 -S nodejs 
 
 # Change ownership of the app directory
-RUN chown -R nodejs:nodejs /app
+RUN chown -R nodejs:nodejs /app 
 USER nodejs
 
 # Expose port

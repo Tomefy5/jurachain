@@ -1,8 +1,8 @@
-# Document des Exigences - JusticeAutomation
+# Document des Exigences - Antoka
 
 ## Introduction
 
-JusticeAutomation est une plateforme décentralisée basée sur l'IA et la blockchain, conçue pour rendre l'accès aux documents légaux professionnel, simple et sécurisé à Madagascar. La plateforme vise à automatiser la génération de documents légaux, garantir la transparence et la traçabilité via l'IA et la blockchain, tout en réduisant drastiquement les barrières d'accès à la justice.
+Antoka est une plateforme décentralisée basée sur l'IA et la blockchain, conçue pour rendre l'accès aux documents légaux professionnel, simple et sécurisé à Madagascar. La plateforme vise à automatiser la génération de documents légaux, garantir la transparence et la traçabilité via l'IA et la blockchain, tout en réduisant drastiquement les barrières d'accès à la justice.
 
 ## Glossaire
 
